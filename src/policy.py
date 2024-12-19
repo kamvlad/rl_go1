@@ -14,35 +14,7 @@ import command
 import standup
 from freedogs2py_bridge import RealGo1
 
-
-def to_observation(state, action_history):
-    obs = []
-    imu_quaternion = state.imu.quaternion
-    obs.extend(utils.quatToEuler(imu_quaternion)[:2])
-
-    for i in range(12):
-        obs.append(state.motorState[i].q)
-
-    for i in range(12):
-        obs.append(state.motorState[i].dq)
-
-    obs.extend(action_history[-1][0])
-    obs += [0] * 4
-    return np.array(obs, dtype=np.float32)
-
-
-def normalize_observation(obs, loaded_mean, loaded_var, clip_obs):
-    return np.clip(
-        (obs - loaded_mean) / np.sqrt(loaded_var + 1e-8),
-        -clip_obs,
-        clip_obs
-    )
-
-
-def push_history(deq, e):
-    if len(deq) == deq.maxlen:
-        deq.popleft()
-    deq.append(e)
+import control
 
 
 def main(args):
@@ -82,7 +54,7 @@ def main(args):
     if not args.standpos:
         standup.standup(conn)
     
-    obs = to_observation(conn.wait_latest_state(), act_history)
+    obs = control.to_observation(conn.wait_latest_state(), act_history)
     obs_history = deque([obs]*50, maxlen=51)
     
     step = 0
@@ -91,11 +63,11 @@ def main(args):
         while args.real or conn.viewer.is_running():
             start_time = time.time()
 
-            push_history(obs_history, to_observation(conn.wait_latest_state(), act_history))
+            control.push_history(obs_history, control.to_observation(conn.wait_latest_state(), act_history))
             obs = np.concatenate(
                 [np.concatenate(obs_history), np.zeros(28, dtype=np.float32)]
             )
-            obs = normalize_observation(obs, loaded_mean, loaded_var, clip_obs)
+            obs = control.normalize_observation(obs, loaded_mean, loaded_var, clip_obs)
             obs_torch = torch.from_numpy(obs).cpu().reshape(1, -1)
     
             with torch.no_grad():
@@ -105,7 +77,7 @@ def main(args):
                     torch.cat([obs_torch[:,42*50:42*(50 + 1)], latent_p], 1)
                 )
             # normalize action
-            push_history(act_history, action_ll)
+            control.push_history(act_history, action_ll)
             action = act_history[0][0] * 0.4 + action_mean
             
             cmd = command.Command(q=action, Kp=[Kp]*12, Kd=[Kd]*12)

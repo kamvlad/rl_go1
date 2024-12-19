@@ -34,6 +34,7 @@ def standup(conn, viewer = None):
 
         phase_cycles += 1
         time.sleep(0.01)
+    return state
 
 def main():
     config.ENABLE_SIMULATION = True

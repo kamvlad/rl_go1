@@ -3,7 +3,7 @@
 После клонирования репозитория устанавливаем следующие зависимости, если не установлены:
 ```
 sudo snap install plotjuggler
-pip install cbor2 mujoco
+pip install cbor2 mujoco pynput
 conda install pytorch torchvision torchaudio pytorch-cuda=12.4 -c pytorch -c nvidia
 ```
 Далее подгружаем сабмодули:
@@ -22,6 +22,23 @@ pip install -e submodules/free-dog-sdk/
 
 Запуск на реальном роботе:  
 ```python3 ./src/policy.py -r```
+
+## Управление роботом
+
+Управление клавишами:  
+* a - назад
+* s - стоп
+* d - вперед
+
+Запуск политики в симуляторе mujoco  
+```python3 ./src/control.py```
+
+Запуск в симуляторе mujoco, с пропуском стадии поднятия робота:  
+```python3 ./src/control.py -s```
+
+Запуск на реальном роботе:  
+```python3 ./src/control.py -r```
+
 
 ## Программа поднятия робота на ноги
 Если хотим запускать в симуляторе, то изменяем в standup.py real = False, если на реальном роботе, то real = True
