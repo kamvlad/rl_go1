@@ -19,3 +19,6 @@
 [submodule "submodules/unitree_mujoco"]
 	path = submodules/unitree_mujoco
 	url = https://github.com/kamvlad/unitree_mujoco.git
+[submodule "submodules/ssrl"]
+	path = submodules/ssrl
+	url = https://github.com/kamvlad/ssrl.git
