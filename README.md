@@ -2,10 +2,20 @@
 
 После клонирования репозитория устанавливаем следующие зависимости, если не установлены:
 ```
+conda create -n cms python==3.9.20
+conda activate cms
 sudo snap install plotjuggler
 pip install cbor2 mujoco pynput
 conda install pytorch torchvision torchaudio pytorch-cuda=12.4 -c pytorch -c nvidia
 ```
+
+Для ssrl:
+```
+pip install dill==0.3.7 hydra-core==1.3.2 omegaconf==2.3.0 submitit==1.4.6
+pip install -U "jax[cuda12_pip]"==0.4.30 -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html
+pip install -e submodules/ssrl/ssrl
+```
+
 Далее подгружаем сабмодули:
 ```
 git submodule update --init --recursive
@@ -24,7 +34,6 @@ pip install -e submodules/free-dog-sdk/
 ```python3 ./src/policy.py -r```
 
 ## Управление роботом
-
 Управление клавишами:  
 * a - назад
 * s - стоп
@@ -48,6 +57,7 @@ pip install -e submodules/free-dog-sdk/
 python3 ./src/standup.py
 ```
 
+## SSRL
 
 ## Возможные ошибки
 Если выдает ошибку, то попробуйте следующую команду и повторите предыдущую команду:
