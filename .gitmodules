@@ -22,3 +22,6 @@
 [submodule "submodules/ssrl"]
 	path = submodules/ssrl
 	url = https://github.com/kamvlad/ssrl.git
+[submodule "submodules/Stage-Wise-CMORL"]
+	path = submodules/Stage-Wise-CMORL
+	url = https://github.com/kamvlad/Stage-Wise-CMORL.git
