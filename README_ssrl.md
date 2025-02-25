@@ -3,7 +3,15 @@
 git submodule update --init --recursive
 ```
 
+# Build docker
+Inside dir ```rl_go1/docker``` run
+```bash
+docker build -t ros-conda .
+```
+
+
 # Start Docker
+Inside dir: ```rl_go1```
 
 ```bash
 xhost si:localuser:root
@@ -16,8 +24,9 @@ source /ssrl_entry.sh
 cd ssrl_ws
 ```
 
-# Build
+# Build ros workspace
 ```bash
+cd /workspace/ssrl_ws
 catkin_make -DPYTHON_EXECUTABLE=/usr/bin/python3
 ```
 
