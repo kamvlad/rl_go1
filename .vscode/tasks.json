@@ -1,0 +1,30 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "docker-run",
+			"label": "docker-run: debug",
+			"dockerRun": {
+				"image": "cmorl",
+				"volumes": [
+					{
+						"localPath": "${workspaceFolder}/submodules/Stage-Wise-CMORL",
+						"containerPath": "/workspace"
+					},
+					{
+						"localPath": "/tmp/.X11-unix",
+						"containerPath": "/tmp/.X11-unix"
+					},
+				],
+				"customOptions": "-w /workspace -v ${HOME}/.Xauthority:/root/.Xauthority --ipc=host --gpus all --net=host -e DISPLAY=$DISPLAY --privileged"
+			},
+			"python": {
+				"file": "main_student.py",
+				"args": [
+					"--task_cfg_path", "tasks/go1_backflip.yaml", "--algo_cfg_path", "algos/student/go1_backflip.yaml", "--test",
+					"--render", "--seed", "1", "--model_num", "100000000"
+				]
+			}
+		}
+	]
+}
