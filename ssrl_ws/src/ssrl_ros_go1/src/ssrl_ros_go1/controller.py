@@ -5,7 +5,7 @@ from ssrl_ros_go1_msgs.msg import Gait
 from ssrl_ros_go1_msgs.msg import QuadrupedState
 
 from ssrl_ros_go1 import env_dict
-from brax.envs.go1_deltaxyk_pd_slow import ControlCommand as Cmd
+from brax.envs.go1_go_fast import ControlCommand as Cmd
 from brax.robots.go1.utils import Go1Utils
 from brax.robots.go1 import networks as go1_networks
 from brax.math import quat_to_eulerzyx, eulerzyx_to_quat
