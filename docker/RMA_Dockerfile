@@ -1,0 +1,18 @@
+FROM ros:noetic
+
+RUN apt-get update && \
+    apt-get install -y wget mesa-utils && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Install Miniconda
+RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O /root/miniconda.sh && \
+    mkdir -p /root/.conda && \
+    bash /root/miniconda.sh -b -p /root/miniconda3 && \
+    rm -f miniconda.sh
+
+ENV PATH=/root/miniconda3/bin:$PATH
+COPY ./rma_environment.yml .
+RUN conda env create -n rma --file /rma_environment.yml
+
+COPY rma_entry.sh .

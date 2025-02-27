@@ -1,4 +1,4 @@
-name: ssrl
+name: rma
 channels:
   - pytorch
   - nvidia
