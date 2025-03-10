@@ -1,0 +1,12 @@
+<launch>
+    <!-- Add node name to console output to identify which node is talking -->
+    <env name="ROSCONSOLE_FORMAT" value="[${severity}] [${time}] [${node}]: ${message}"/>
+    
+    <node pkg="ssrl_ros_go1" type="observer.py" name="observer" output="screen">
+        <param name="velocity_estimation" value="vicon" />
+    </node>
+    <node pkg="ssrl_ros_go1" type="low_cmd_pub" name="low_cmd_pub" output="screen" />
+    <node pkg="ssrl_ros_go1" type="command_pub.py" name="command_pub" output="screen" />
+    
+    <node pkg="mujoco_go1" type="simulation_node.py" name="simulation_node" output="screen" />
+</launch>

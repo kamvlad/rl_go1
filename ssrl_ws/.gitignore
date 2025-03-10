@@ -1,3 +1,5 @@
 build/
 devel/
 install/
+outputs/
+src/ssrl_ros_go1/data/

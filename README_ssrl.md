@@ -38,3 +38,16 @@ Run controller node
 ```bash
 rosrun ssrl_ros_go1 controller.py
 ```
+
+# SSRL Hardware using simulation setup
+Start simulation and supply nodes in docker container
+```bash
+roslaunch ssrl_ros_go1 support_nodes_sim.launch
+```
+
+Start controller in same container in "/workspace" folder:
+```
+source /ros_entrypoint.sh
+source devel/setup.sh
+rosrun ssrl_ros_go1 scripts/controller.py
+```

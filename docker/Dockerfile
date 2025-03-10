@@ -11,7 +11,7 @@ RUN apt-get update && \
 
 RUN pip install jaxlib==0.4.13+cuda12.cudnn89 -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html && \
     pip install optax==0.1.7 jax==0.4.13 \
-                dill==0.3.7 hydra-core==1.3.2 matplotlib numpy==1.24.4 omegaconf==2.3.0 submitit==1.4.6 wandb==0.15.5 pynput cbor2 \
+                dill==0.3.7 hydra-core==1.3.2 matplotlib numpy==1.24.4 omegaconf==2.3.0 submitit==1.4.6 wandb==0.15.5 pynput cbor2 plotly \
                 absl-py dm_env etils flask flask_cors flax grpcio gym jaxopt jinja2 mujoco Pillow pytinyrenderer scipy tensorboardX trimesh==3.9.35 typing-extensions
 
 COPY ssrl_entry.sh .

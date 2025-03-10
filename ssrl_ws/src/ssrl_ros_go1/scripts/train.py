@@ -1,6 +1,5 @@
 #!/usr/bin/env python
-from brax.envs.go1_go_fast_circle import Go1GoFastCircle
-from brax.envs.go1_go_fast_circle_ja import Go1GoFastCircleJa
+from brax.envs.go1_go_fast import Go1GoFast
 from brax.robots.go1 import networks as go1_networks
 from brax.training.acme import running_statistics
 from brax.training.agents.ssrl import train as ssrl
@@ -192,14 +191,14 @@ def init_training(cfg: DictConfig) -> Tuple[ssrl_base.MbpoState, RlwamEnv,
                 run_id = wandb_state.id
                 steps = wandb_state.steps
                 wandb.init(project='go1_ssrl_hardware',
-                           entity=cfg.wandb.entity,
+                           #entity=cfg.wandb.entity,
                            id=run_id,
                            resume='must')
         else:
             config_dict = OmegaConf.to_container(cfg, resolve=True,
                                                  throw_on_missing=True)
             wandb.init(project='go1_ssrl_hardware',
-                       entity=cfg.wandb.entity,
+                       #entity=cfg.wandb.entity,
                        name=cfg.run_name,
                        config=config_dict,
                        id=None,
@@ -318,7 +317,7 @@ def init_training(cfg: DictConfig) -> Tuple[ssrl_base.MbpoState, RlwamEnv,
 
 
 def load_rollout(ms: ssrl_base.MbpoState, cfg: DictConfig,
-                 env: Go1GoFastCircle, rollout_num: int, rollout_path: Path):
+                 env: Go1GoFast, rollout_num: int, rollout_path: Path):
     obs_size = env.observation_size
     hist_len = cfg.common.obs_history_length
     act_repeat = cfg.common.action_repeat
