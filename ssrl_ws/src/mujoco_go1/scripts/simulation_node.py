@@ -61,6 +61,11 @@ if __name__ == '__main__':
                                     TwistStamped,
                                     queue_size=10)
 
+    def reset_callback(msg):
+        mujoco.mj_resetDataKeyframe(mj_model, mj_data, 0)
+
+    reset_sub = rospy.Subscriber('reset', Reset, reset_callback, tcp_nodelay=True)
+
     control_rate = rospy.Rate(1 / control_dt_sec)
     try:
         while not rospy.is_shutdown() and viewer.is_running():

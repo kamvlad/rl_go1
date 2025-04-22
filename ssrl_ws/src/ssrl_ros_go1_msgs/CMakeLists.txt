@@ -16,6 +16,7 @@ add_message_files(
   QuadrupedState.msg
   QuadrupedCommand.msg
   Action.msg
+  Reset.msg
 )
 
 generate_messages(

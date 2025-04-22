@@ -46,8 +46,18 @@ roslaunch ssrl_ros_go1 support_nodes_sim.launch
 ```
 
 Start controller in same container in "/workspace" folder:
-```
+```bash
 source /ros_entrypoint.sh
 source devel/setup.sh
 rosrun ssrl_ros_go1 scripts/controller.py
+```
+
+Or one-liner from root:
+```bash
+source ros_entrypoint.sh && source workspace/ssrl_ws/devel/setup.sh && cd workspace/ssrl_ws/ && rosrun ssrl_ros_go1 /workspace/ssrl_ws/src/ssrl_ros_go1/scripts/controller.py
+```
+
+Train:
+```bash
+python src/ssrl_ros_go1/scripts/train.py run_name=run_name
 ```

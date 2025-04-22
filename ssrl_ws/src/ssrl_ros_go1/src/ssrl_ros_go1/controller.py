@@ -3,6 +3,7 @@ from ssrl_ros_go1_msgs.msg import Action
 from ssrl_ros_go1_msgs.msg import PdTarget
 from ssrl_ros_go1_msgs.msg import Gait
 from ssrl_ros_go1_msgs.msg import QuadrupedState
+from ssrl_ros_go1_msgs.msg import Reset
 
 from ssrl_ros_go1 import env_dict
 from brax.envs.go1_go_fast import ControlCommand as Cmd
@@ -62,6 +63,7 @@ class Controller:
         self.control = jax.jit(self.env.low_level_control_hardware)
         self.normalize_obs = jax.jit(self.env._normalize_obs)
         self.scale_action = jax.jit(self.env.scale_action)
+        self.shutdown_flag = False
         
         # Class vars
         self.data_path = data_path
@@ -154,6 +156,9 @@ class Controller:
         self.qped_state_pub = rospy.Publisher("quadruped_state", QuadrupedState,
                                                queue_size=10)
 
+        self.reset_pub = rospy.Publisher('reset',
+                                    Reset,
+                                    queue_size=10)
         # keyboard listener
         self.listener_thread = threading.Thread(target=self.start_keyboard_listener)
         self.listener_thread.start()
@@ -350,11 +355,13 @@ class Controller:
 
     def run(self):
         rospy.loginfo("Starting controller")
+        self.reset_pub.publish(Reset())
+
         rate = rospy.Rate(1/self.env.dt)
-        rospy.loginfo("Quadruped is off. Press space to start standing up.")
+        rospy.loginfo("Quadruped is off. Press space to start standing up.")    
         self.publish_quadruped_state()
 
-        while not rospy.is_shutdown():
+        while not rospy.is_shutdown() and not self.shutdown_flag:
             self.do_control()
             rate.sleep()
 
